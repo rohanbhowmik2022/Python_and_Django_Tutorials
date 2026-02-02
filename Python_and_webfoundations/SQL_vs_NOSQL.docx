@@ -157,4 +157,191 @@ ORM = Bridge between code & database
 ACID = Trust in data
 
 
+Design DB schema for a blog system
+-----------------------------------
 
+1️⃣ Users Table
+Purpose
+
+Stores authors and readers.
+
+users
+-----
+id (PK)
+username (UNIQUE)
+email (UNIQUE)
+password_hash
+role        -- admin / author / reader
+created_at
+updated_at
+
+Why?
+
+One user can write many posts
+
+One user can write many comments
+
+👉 One-to-Many relationship with posts & comments
+
+2️⃣ Posts Table
+Purpose
+
+Stores blog articles.
+
+posts
+-----
+id (PK)
+title
+slug (UNIQUE)
+content
+author_id (FK → users.id)
+status        -- draft / published
+published_at
+created_at
+updated_at
+
+Key Points
+
+slug → SEO-friendly URLs
+
+status → supports drafts
+
+author_id → Foreign Key
+
+📌 One user → many posts
+
+3️⃣ Categories Table
+Purpose
+
+High-level grouping (Tech, DevOps, AI)
+
+categories
+----------
+id (PK)
+name (UNIQUE)
+slug (UNIQUE)
+created_at
+
+4️⃣ Post-Category Mapping (Many-to-Many)
+
+A post can have multiple categories.
+
+post_categories
+---------------
+post_id (FK → posts.id)
+category_id (FK → categories.id)
+PRIMARY KEY (post_id, category_id)
+
+
+📌 This avoids duplication and keeps schema normalized.
+
+5️⃣ Tags Table
+Purpose
+
+Fine-grained labels (django, sql, rest)
+
+tags
+----
+id (PK)
+name (UNIQUE)
+slug (UNIQUE)
+
+6️⃣ Post-Tag Mapping (Many-to-Many)
+post_tags
+---------
+post_id (FK → posts.id)
+tag_id (FK → tags.id)
+PRIMARY KEY (post_id, tag_id)
+
+7️⃣ Comments Table
+Purpose
+
+User feedback on posts.
+
+comments
+--------
+id (PK)
+post_id (FK → posts.id)
+user_id (FK → users.id)
+parent_id (FK → comments.id, NULLABLE)
+content
+created_at
+
+Why parent_id?
+
+Enables nested comments / replies
+
+📌 Self-referencing foreign key = threaded comments
+
+8️⃣ Likes Table
+Purpose
+
+Track likes on posts.
+
+likes
+-----
+id (PK)
+post_id (FK → posts.id)
+user_id (FK → users.id)
+created_at
+UNIQUE (post_id, user_id)
+
+
+✔ Prevents double-likes
+✔ Simple & scalable
+
+🔗 Relationships Summary
+Relationship	Type
+User → Posts	One-to-Many
+User → Comments	One-to-Many
+Post → Comments	One-to-Many
+Post → Categories	Many-to-Many
+Post → Tags	Many-to-Many
+Post → Likes	One-to-Many
+Comment → Comment	Self-referencing
+🧠 ACID-Safe & Normalized Design
+
+✅ No duplicate data
+
+✅ Strong referential integrity
+
+✅ Easy to scale
+
+✅ ORM-friendly
+
+🧑‍💻 ORM Mapping (Django-Style Example)
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    categories = models.ManyToManyField(Category)
+    tags = models.ManyToManyField(Tag)
+
+
+📌 ORM automatically creates:
+
+Join tables
+
+Foreign keys
+
+Indexes
+
+🚀 Optional Advanced Add-Ons
+
+If you want industry-level design:
+
+post_views table (analytics)
+
+soft_delete flags
+
+post_versions (edit history)
+
+is_featured boolean
+
+published_by admin FK
+
+🧠 Final Mental Model
+Users write Posts
+Posts have Categories & Tags
+Users comment & like Posts
+Everything is connected via keys
