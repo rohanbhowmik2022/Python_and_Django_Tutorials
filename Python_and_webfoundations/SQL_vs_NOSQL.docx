@@ -10,10 +10,151 @@ NoSQL Databases -> Flexible, Scalable, Schema-less (or semi structured)
 | Transactions   | ACID                    | BASE (mostly)              |
 | Best for       | Banking, ERP            | Big data, real-time apps   |
 
-### Real World Analogy
+Real World Analogy
 
 SQL -> Bank Ledger (Strict, accurate)
 NoSQL -> WhatsApp Chats (fast, flexible)
 
-### Tables, Rows, Columns & Keys (SQL Basics)
-![alt text](https://www.w3resource.com/w3r_images/component-of-a-database-table.gif)
+Tables, Rows, Columns & Keys (SQL Basics)
+
+A table stores data about one entity.
+Example: users
+
+Row (Record)
+--------------
+One row = one real-world object
+
+id | name  | email
+1  | Rohan | r@example.com
+
+Column (Field)
+--------------
+One column = one property
+1. id
+2. name
+3. email
+
+Keys (Very Important)
+----------------------
+
+1️⃣ Primary Key
+Uniquely identifies a row
+Cannot be NULL or duplicate
+id = 1
+
+2️⃣ Foreign Key
+Creates relationship between tables
+orders.user_id → users.id
+📌 This enforces data integrity
+
+3️⃣ Unique Key
+No duplicates (email, phone number)
+
+
+<<<NoSQL Data Model (Simple)>>>
+
+Example Document
+{
+  "id": 1,
+  "name": "Rohan",
+  "orders": [
+    {"product": "Laptop", "price": 70000}
+  ]
+}
+
+Benefits
+--------
+✔ No JOIN
+✔ Everything together
+✔ Faster reads
+
+What is ORM?
+ORM lets you interact with the database using objects instead of SQL queries.
+
+Without ORM
+SELECT * FROM users WHERE id = 1;
+
+With ORM
+user = User.objects.get(id=1)
+
+How ORM Works Internally
+Class → Table
+Object → Row
+Attribute → Column
+
+
+> Benefits of ORM
+| Benefit         | Why it matters         |
+| --------------- | ---------------------- |
+| Less SQL        | Cleaner code           |
+| DB-agnostic     | Switch DB easily       |
+| Security        | Prevents SQL injection |
+| Productivity    | Faster development     |
+| Maintainability | Easier refactoring     |
+
+
+Popular ORMs:
+
+1. Django ORM
+2. SQLAlchemy
+3. Hibernate
+
+6️⃣ ORM Trade-offs (Important for Interviews)
+
+❌ Slower for complex queries
+❌ Less control than raw SQL
+❌ Can cause N+1 query problems
+
+👉 Best practice: ORM + raw SQL when needed
+
+ACID Properties
+-------------------
+A - Atomicity -> The entire transaction takes place at once or doesn't happen at all
+C - Consistency -> The database must be consistent before and after the transaction
+I - Isolation -> Multiple Transactions occur independently without interference
+D - Durability -> The changes of a successful transaction occurs even if the system failure occurs
+
+It ensures reliable transactions in SQL databases
+
+A - Atomicity (All or Nothing)
+Example - Rs 100 Debited and Rs 100 Credited > If credit fails -> Debit rolls back
+
+C - Consistency (Database rules are never broken)
+Example - Balance cannot be negative, Foreign Keys must exist
+
+I - Isolation (Transactions don't interfere)
+Example - Two users withdrawing money, Each transaction sees correct balance
+
+D - Durability (Once committed, data is permanent)
+Example - Even if server crashes..Transaction remains saved
+
+| ACID (SQL)         | BASE (NoSQL)            |
+| ------------------ | ----------------------- |
+| Strong consistency | Eventual consistency    |
+| Reliable           | Highly scalable         |
+| Slower             | Faster                  |
+| Banking systems    | Social media, analytics |
+
+
+When to Use What (Practical Guidance)
+✅ Use SQL when:
+
+1. Financial systems
+2. Inventory management
+3. Relationships matter
+4. ACID compliance needed
+
+✅ Use NoSQL when:
+
+1. Massive scale
+2. Flexible data
+3. Real-time analytics
+4. IoT / chat apps
+
+SQL = Structure + Accuracy + Relationships
+NoSQL = Flexibility + Speed + Scale
+ORM = Bridge between code & database
+ACID = Trust in data
+
+
+
