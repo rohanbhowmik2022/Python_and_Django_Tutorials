@@ -181,4 +181,30 @@ Statelessness = scalability
 Resources = clean API design
 
 
+### Bank ATM (Real World Example)
+---------------------------------------
+
+Resources
+1. Account -> /accounts/9876
+2. Balance -> /accounts/9876/balance
+3. Transactions -> /accounts/9876/transactions
+
+Actions
+> ATM Action
+1. Check Balance -> GET
+2. Withdraw Money -> POST
+3. Update Details -> PUT
+4. Close Account -> DELETE
+
+Statelessness
+Each ATM request requires
+1. Card
+2. PIN
+
+The ATM does not remember you after each operation just like REST APIs need
+
+Authorization: Bearer Token
+
+
+
 
