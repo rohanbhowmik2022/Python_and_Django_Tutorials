@@ -1,0 +1,19 @@
+SQL Databases -> Structured, relational, strict rules
+NoSQL Databases -> Flexible, Scalable, Schema-less (or semi structured)
+
+| Feature        | SQL                     | NoSQL                      |
+| -------------- | ----------------------- | -------------------------- |
+| Data structure | Tables (rows & columns) | JSON, documents, key-value |
+| Schema         | Fixed                   | Flexible                   |
+| Scalability    | Vertical                | Horizontal                 |
+| Relationships  | Strong (JOINs)          | Limited or manual          |
+| Transactions   | ACID                    | BASE (mostly)              |
+| Best for       | Banking, ERP            | Big data, real-time apps   |
+
+### Real World Analogy
+
+SQL -> Bank Ledger (Strict, accurate)
+NoSQL -> WhatsApp Chats (fast, flexible)
+
+### Tables, Rows, Columns & Keys (SQL Basics)
+![alt text](https://www.w3resource.com/w3r_images/component-of-a-database-table.gif)
